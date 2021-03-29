@@ -92,6 +92,9 @@ void GPSService::attachToParser(NMEAParser& _parser){
 		this->read_GPVTG(nmea);
 	});
 
+	_parser.setSentenceHandler("GPZDA", [this](const NMEASentence& nmea) {
+		this->read_GPZDA(nmea);
+	});
 }
 
 
@@ -336,7 +339,7 @@ void GPSService::read_GPGSV(const NMEASentence& nmea){
 		this->fix.almanac.totalPages = totalPages;
 		this->fix.almanac.visibleSize = this->fix.visibleSatellites;
 
-		int entriesInPage = (nmea.parameters.size() - 3) >> 2;	//first 3 are not satellite info
+		int entriesInPage = (static_cast<int>(nmea.parameters.size()) - 3) >> 2;  //first 3 are not satellite info
 		//- entries come in 4-ples, and truncate, so used shift
 		GPSSatellite sat;
 		for (int i = 0; i < entriesInPage; i++){
@@ -509,3 +512,48 @@ void GPSService::read_GPVTG(const NMEASentence& nmea){
 	}
 }
 
+void GPSService::read_GPZDA(const NMEASentence & nmea) {
+	/*
+	$GPZDA,210343.00,02,03,2021,,*61
+
+	where:
+	ZDA          SiRF Timing Message
+	[0]		210343.00    hhmmss.ss = UTC
+	[1]		02           Day, 01 to 31
+	[2]		03           Month, 01 to 12
+	[3]		2021         Year
+	[4]					 Local zone description, 00 to +/- 13 hours
+	[5]					 Local zone minutes description (same sign as hours)
+	[6]	*61          Checksum
+	*/
+
+	try
+	{
+		if (!nmea.checksumOK()) {
+			throw NMEAParseError("Checksum is invalid!");
+		}
+
+		if (nmea.parameters.size() < 6) {
+			throw NMEAParseError("GPS data is missing parameters.");
+		}
+
+		// TIMESTAMP
+		this->fix.timestamp.setTime(parseDouble(nmea.parameters[0]));
+		this->fix.timestamp.day = (int32_t)parseInt(nmea.parameters[1]);
+		this->fix.timestamp.month = (int32_t)parseInt(nmea.parameters[2]);
+		this->fix.timestamp.year = (int32_t)parseInt(nmea.parameters[3]);
+		this->fix.setlock(true); // TODO find a way to not set lock state or remove
+		this->onLockStateChanged(true);
+		this->onUpdate();
+	}
+	catch (NumberConversionError& ex)
+	{
+		NMEAParseError pe("GPS Number Bad Format [$GPZDA] :: " + ex.message, nmea);
+		throw pe;
+	}
+	catch (NMEAParseError& ex)
+	{
+		NMEAParseError pe("GPS Data Bad Format [$GPZDA] :: " + ex.message, nmea);
+		throw pe;
+	}
+}

@@ -28,6 +28,7 @@ private:
 	void read_GPGSV	(const NMEASentence& nmea);
 	void read_GPRMC	(const NMEASentence& nmea);
 	void read_GPVTG	(const NMEASentence& nmea);
+	void read_GPZDA (const NMEASentence & nmea);
 
 public:
 	GPSFix fix;

@@ -542,8 +542,6 @@ void GPSService::read_GPZDA(const NMEASentence & nmea) {
 		this->fix.timestamp.day = (int32_t)parseInt(nmea.parameters[1]);
 		this->fix.timestamp.month = (int32_t)parseInt(nmea.parameters[2]);
 		this->fix.timestamp.year = (int32_t)parseInt(nmea.parameters[3]);
-		this->fix.setlock(true); // TODO find a way to not set lock state or remove
-		this->onLockStateChanged(true);
 		this->onUpdate();
 	}
 	catch (NumberConversionError& ex)

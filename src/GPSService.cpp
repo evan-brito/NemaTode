@@ -39,6 +39,10 @@ double convertLatLongToDeg(string llstr, string dir){
 	if (hdg == 'S' || hdg == 'W'){
 		deg *= -1.0;
 	}
+	
+	if (deg < -180.0 || deg > 180.0){
+		throw NMEAParseError("Invalid lat/long format: " + llstr);
+	}
 
 	return deg;
 }

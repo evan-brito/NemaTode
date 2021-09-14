@@ -174,13 +174,12 @@ void GPSService::read_GPGGA(const NMEASentence& nmea){
 		// FIX QUALITY
 		bool lockupdate = false;
 		this->fix.quality = (uint8_t)parseInt(nmea.parameters[5]);
-		if (this->fix.quality == 0){
-			lockupdate = this->fix.setlock(false);
-		}
-		else if (this->fix.quality == 1){
+		if (this->fix.quality > 0 && this->fix.quality <= 6){
 			lockupdate = this->fix.setlock(true);
 		}
-		else {}
+		else {
+			lockupdate = this->fix.setlock(false);
+		}
 
 
 		// TRACKING SATELLITES

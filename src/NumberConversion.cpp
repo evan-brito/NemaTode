@@ -48,7 +48,7 @@ namespace nmea {
 			for (const auto c : s)
 			{
 				if (std::isprint(c)) ss << c;
-				else ss << std::setw(2) << R"(\0x)" << static_cast<uint8_t>(c);
+				else ss << std::setw(2) << R"(\0x)" << static_cast<unsigned>(c);
 			}
 			return ss.str();
 		}

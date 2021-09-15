@@ -8,7 +8,9 @@
  */
 
 #include <nmeaparse/NumberConversion.h>
+#include <cctype>
 #include <cstdlib>
+#include <iomanip>
 
 using namespace std;
 
@@ -39,6 +41,16 @@ namespace nmea {
 				throw NumberConversionError(ss.str());
 			}
 			return d;
+		}
+		std::string non_printable_to_hex(std::string& s){
+			std::stringstream ss;
+			ss << std::hex << std::setfill('0');
+			for (const auto c : s)
+			{
+				if (std::isprint(c)) ss << c;
+				else ss << std::setw(2) << R"(\0x)" << static_cast<unsigned>(c);
+			}
+			return ss.str();
 		}
 
 }

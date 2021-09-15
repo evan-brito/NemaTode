@@ -205,7 +205,7 @@ void NMEAParser::onWarning(NMEASentence& nmea, string txt){
 	}
 }
 void NMEAParser::onError(NMEASentence& nmea, string txt){
-	throw NMEAParseError("[ERROR] " + txt);
+	throw NMEAParseError("[ERROR] " + non_printable_to_hex(txt));
 }
 
 // takes a complete NMEA string and gets the data bits from it,

@@ -39,6 +39,7 @@ public:
 
 double parseDouble(std::string s);
 int64_t parseInt(std::string s, int radix = 10);
+std::string non_printable_to_hex(std::string& s);
 
 //void NumberConversion_test();
 

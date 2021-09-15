@@ -41,7 +41,7 @@ double convertLatLongToDeg(string llstr, string dir){
 	}
 	
 	if (deg < -180.0 || deg > 180.0){
-		throw NMEAParseError("Invalid lat/long format: " + llstr);
+		throw NMEAParseError("Invalid lat/long format: " + non_printable_to_hex(llstr));
 	}
 
 	return deg;
@@ -204,12 +204,12 @@ void GPSService::read_GPGGA(const NMEASentence& nmea){
 	}
 	catch (NumberConversionError& ex)
 	{
-		NMEAParseError pe("GPS Number Bad Format [$GPGGA] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Number Bad Format [$GPGGA] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 	catch (NMEAParseError& ex)
 	{
-		NMEAParseError pe("GPS Data Bad Format [$GPGGA] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Data Bad Format [$GPGGA] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 }
@@ -278,12 +278,12 @@ void GPSService::read_GPGSA(const NMEASentence& nmea){
 	}
 	catch (NumberConversionError& ex)
 	{
-		NMEAParseError pe("GPS Number Bad Format [$GPGSA] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Number Bad Format [$GPGSA] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 	catch (NMEAParseError& ex)
 	{
-		NMEAParseError pe("GPS Data Bad Format [$GPGSA] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Data Bad Format [$GPGSA] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 }
@@ -372,12 +372,12 @@ void GPSService::read_GPGSV(const NMEASentence& nmea){
 	}
 	catch (NumberConversionError& ex)
 	{
-		NMEAParseError pe("GPS Number Bad Format [$GPGSV] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Number Bad Format [$GPGSV] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 	catch (NMEAParseError& ex)
 	{
-		NMEAParseError pe("GPS Data Bad Format [$GPGSV] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Data Bad Format [$GPGSV] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 }
@@ -463,12 +463,12 @@ void GPSService::read_GPRMC(const NMEASentence& nmea){
 	}
 	catch (NumberConversionError& ex)
 	{
-		NMEAParseError pe("GPS Number Bad Format [$GPRMC] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Number Bad Format [$GPRMC] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 	catch (NMEAParseError& ex)
 	{
-		NMEAParseError pe("GPS Data Bad Format [$GPRMC] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Data Bad Format [$GPRMC] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 }
@@ -505,12 +505,12 @@ void GPSService::read_GPVTG(const NMEASentence& nmea){
 	}
 	catch (NumberConversionError& ex)
 	{
-		NMEAParseError pe("GPS Number Bad Format [$GPVTG] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Number Bad Format [$GPVTG] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 	catch (NMEAParseError& ex)
 	{
-		NMEAParseError pe("GPS Data Bad Format [$GPVTG] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Data Bad Format [$GPVTG] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 }
@@ -549,12 +549,12 @@ void GPSService::read_GPZDA(const NMEASentence & nmea) {
 	}
 	catch (NumberConversionError& ex)
 	{
-		NMEAParseError pe("GPS Number Bad Format [$GPZDA] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Number Bad Format [$GPZDA] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 	catch (NMEAParseError& ex)
 	{
-		NMEAParseError pe("GPS Data Bad Format [$GPZDA] :: " + ex.message, nmea);
+		NMEAParseError pe("GPS Data Bad Format [$GPZDA] :: " + non_printable_to_hex(ex.message), nmea);
 		throw pe;
 	}
 }

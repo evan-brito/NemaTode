@@ -175,9 +175,11 @@ void GPSService::read_GPGGA(const NMEASentence& nmea){
 		bool lockupdate = false;
 		this->fix.quality = (uint8_t)parseInt(nmea.parameters[5]);
 		if (this->fix.quality > 0 && this->fix.quality <= 6){
+			this->fix.status = 'A';
 			lockupdate = this->fix.setlock(true);
 		}
 		else {
+			this->fix.status = 'V';
 			lockupdate = this->fix.setlock(false);
 		}
 
